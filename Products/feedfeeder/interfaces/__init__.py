@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Classes
-import consumer  # noqa
-import container  # noqa
-import contenthandler  # noqa
-import folderview  # noqa
-import item  # noqa
+from . import consumer  # noqa
+from . import container  # noqa
+from . import contenthandler  # noqa
+from . import folderview  # noqa
+from . import item  # noqa

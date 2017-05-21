@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from DateTime import DateTime
 from DateTime.interfaces import SyntaxError as DateTimeSyntaxError
 from hashlib import md5
-from HTMLParser import HTMLParseError
+from html.parser import HTMLParseError
 from Products.CMFCore.utils import getToolByName
 from Products.feedfeeder.config import MAXSIZE
 from Products.feedfeeder.events import FeedItemConsumedEvent
@@ -21,7 +21,7 @@ import logging
 import os
 import re
 import tempfile
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 
 RE_FILENAME = re.compile('filename *= *(.*)')
@@ -112,7 +112,7 @@ class FeedConsumer:
         if len(urlinfo) > 1:
             prefix = urlinfo[0]
             if prefix[-1] != ' ':
-                prefix += u' '
+                prefix += ' '
             url = urlinfo[1]
         else:
             prefix = ''
@@ -210,7 +210,7 @@ class FeedConsumer:
             logger.debug("2 summary: %r" % summary.encode("utf-8"))
 
             obj.update(id=id,
-                       title=u"{0}{1}".format(
+                       title="{0}{1}".format(
                            prefix,
                            getattr(
                                entry,
@@ -328,7 +328,7 @@ class FeedConsumer:
                 for link in real_enclosures:
                     if MAXSIZE > 0:
                         length = link.get('length', 0)
-                        if isinstance(length, basestring):
+                        if isinstance(length, str):
                             if length.isdigit():
                                 length = int(length)
                             else:
@@ -374,14 +374,14 @@ class FeedConsumer:
 
     def isHTMLEnclosure(self, enclosure):
         if hasattr(enclosure, 'type'):
-            return enclosure.type == u'text/html'
+            return enclosure.type == 'text/html'
         return False
 
 
 def updateWithRemoteFile(obj, link):
     file = tempfile.TemporaryFile('w+b')
     try:
-        remote = urllib2.urlopen(link.href.encode('utf-8'))
+        remote = urllib.request.urlopen(link.href.encode('utf-8'))
         info = remote.info()
         filename = None
         if link.href.startswith('file:'):
@@ -426,7 +426,7 @@ def updateWithRemoteFile(obj, link):
             link_type = 'application/octet-stream'
         obj.update_data(file, link_type)
         file.close()
-    except urllib2.URLError:
+    except urllib.error.URLError:
         # well, if we cannot retrieve the data, the file object will
         # remain empty
         pass

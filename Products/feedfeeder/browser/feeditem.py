@@ -106,7 +106,7 @@ class FeedItemView(BrowserView):
     def checkEditPermission(self):
         """ Returns if you have the edit permission"""
         membership = getMultiAdapter((self.context, self.request),
-                                     name=u'plone_tools').membership()
+                                     name='plone_tools').membership()
         return membership.checkPermission(
             'Modify portal content', self.context)
 
@@ -115,7 +115,7 @@ class FeedItemView(BrowserView):
         plone_tools = getMultiAdapter((self.context, self.request),
                                       name='plone_tools')
         portal_state = getMultiAdapter((self.context, self.request),
-                                       name=u'plone_portal_state')
+                                       name='plone_portal_state')
         properties = plone_tools.properties()
         site_properties = getattr(properties, 'site_properties')
         anonymous = portal_state.anonymous()

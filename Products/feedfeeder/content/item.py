@@ -170,7 +170,7 @@ class FeedFeederItem(ATFolder):
             self._feed_tags = value
         elif isinstance(value, tuple):
             self._feed_tags = list(value)
-        elif isinstance(value, basestring):
+        elif isinstance(value, str):
             self._feed_tags = [value]
         else:
             raise ValueError("expected list, tuple or basestring, got %s",

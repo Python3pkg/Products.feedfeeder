@@ -1,4 +1,4 @@
-from StringIO import StringIO
+from io import StringIO
 from Products.CMFCore.utils import getToolByName
 
 
@@ -13,6 +13,6 @@ def applyGenericSetupProfile(site, out):
 
     our_profile = 'profile-Products.feedfeeder:default'
     setup_tool = getToolByName(site, 'portal_setup')
-    print >> out, "Applying the generic setup profile for feedfeeder..."
+    print("Applying the generic setup profile for feedfeeder...", file=out)
     setup_tool.runAllImportStepsFromProfile(our_profile)
-    print >> out, "Applied the generic setup profile for feedfeeder"
+    print("Applied the generic setup profile for feedfeeder", file=out)
